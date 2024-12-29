@@ -556,6 +556,9 @@ form button:hover {
 }
 #pika{
     text-align:center;
+    font-size:1.8em;
+    font-weight:800;
+    color:#54d68e;
 }
 /* صفحة الدعم الفخمة */
 .support-section {
