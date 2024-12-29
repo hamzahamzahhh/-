@@ -1,7 +1,8 @@
 /* تصميم الخانة الخاصة بتغيير الاسم */
 #az{
     display:flex;
-    
+    justify-content:center;
+    align-items:center;
 }
 #edit-name-section {
     background-color: #f8f9fa;
