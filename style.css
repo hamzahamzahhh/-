@@ -1,15 +1,96 @@
-/* التنسيق العام */
+/* تصميم الخانة الخاصة بتغيير الاسم */
+#az{
+    display:flex;
+}
+#edit-name-section {
+    background-color: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 60%; /* عرض أصغر من الجوانب */
+    margin: 20px auto; /* لتوسيط الخانة أفقياً */
+    text-align: center; /* لتوسيط المحتوى داخل الخانة */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* تأثير الانميشن عند عرض الخانة */
+#edit-name-section[style*="display: block"] {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+#edit-name-section[style*="display: none"] {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+/* الحقل النصي لتغيير الاسم */
+#new-name {
+    width: 80%; /* تصغير العرض ليبدو أكثر جمالية */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    margin-bottom: 15px; /* مسافة بين الحقل والأزرار */
+}
+
+#new-name:focus {
+    border-color: #007BFF;
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+/* الأزرار في قسم تعديل الاسم */
+#edit-name-section button {
+    background-color: #28a745;
+    color: white;
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 10px 5px 0; /* مسافة بين الأزرار */
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#edit-name-section button:hover {
+    background-color: #218838;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+#edit-name-section button:last-child {
+    background-color: #dc3545;
+}
+
+#edit-name-section button:last-child:hover {
+    background-color: #c82333;
+}
+
+/* انميشن لطيف عند عرض قسم تعديل الاسم */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+#edit-name-section[style*="display: block"] {
+    animation: fadeIn 0.3s ease;
+}
 body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-   /* لون أزرق فاتح */
-  background-color: linear-gradient(to right, #4facfe, #00f2fe); 
+    background: linear-gradient(135deg, #2b2b2b, #3b3b3b);
     color: #fff;
     direction: rtl;
     overflow-x: hidden;
 }
-
 
 .hidden {
     display: none;
@@ -602,23 +683,23 @@ a{
 }
 
 /* للأجهزة المتوسطة */
-@media (max-width: 700px) and (min-width: 500px) {
+@media (max-width: 900px) and (min-width: 700px) {
   body {
-    font-size: 10px;
+    font-size: 12px;
   }
 }
 
 /* للأجهزة الصغيرة */
-@media (max-width: 550px) {
+@media (max-width: 650px) {
   body {
-    font-size: 7px;
+    font-size: 10px;
   }
 }
 p{
     font-style:italic;
     text-align:center;
-    font-size:1.4em;
-    font-weight:700;
+    font-size:1.3em;
+    font-weight:600;
 }
 #name{
     font-style:italic;
@@ -626,9 +707,9 @@ p{
     font-size:1.5em;
     font-weight:700;
 }
-@media (max-width: 400px) {
+@media (max-width: 480px) {
   h1 {
-    font-size: 8px;
+    font-size: 10px;
   }
 
   button {
@@ -660,8 +741,8 @@ nav ul {
 }
 #welcome-message{
     text-align:center;
-    font-size:1.2em;
-    font-weight: 500;
+    font-size:1.6em;
+    font-weight: 600;
     font-style:italic;
     
 }
@@ -670,4 +751,4 @@ nav ul {
 }
 #registrationForm{
     text-align:center;
-    }
+}
