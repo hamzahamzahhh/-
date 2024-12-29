@@ -198,3 +198,15 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 });
+// تحسين تصميم الموقع ليكون متجاوبًا مع كافة الأجهزة
+function adjustLayout() {
+  if (window.innerWidth <= 768) {
+    document.body.classList.add('mobile');
+  } else {
+    document.body.classList.remove('mobile');
+  }
+}
+
+// استدعاء الدالة عند تحميل الصفحة وعند تغيير حجم النافذة
+window.addEventListener('load', adjustLayout);
+window.addEventListener('resize', adjustLayout);
