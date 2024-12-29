@@ -722,13 +722,13 @@ p{
 }
 @media (orientation: portrait) {
   body {
-    background-color: lightcoral;
+    
   }
 }
 
 @media (orientation: landscape) {
   body {
-    background-color: lightblue;
+    
   }
 }
 nav ul {
