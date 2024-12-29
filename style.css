@@ -8,6 +8,10 @@ body {
     direction: rtl;
     overflow-x: hidden;
 }
+body {
+  background-color: #f0f8ff; /* لون أزرق فاتح */
+  background-image: linear-gradient(to right, #4facfe, #00f2fe); /* تدرج لوني ناعم */
+}
 
 .hidden {
     display: none;
