@@ -4,7 +4,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>النجاح مسار</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            direction: rtl;
+        }
+
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .header-content a {
+            color: white;
+            margin: 0 10px;
+            text-decoration: none;
+        }
+
+        .welcome-section {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        #edit-name-section {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        textarea#new-comment {
+            width: 100%;
+            height: 60px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 5px;
+            resize: none;
+        }
+
+        .comments-section {
+            padding: 20px;
+            background: white;
+            border-radius: 5px;
+            max-width: 600px;
+            margin: 0 auto;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .comment {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #ddd;
+            padding-bottom: 10px;
+        }
+
+        .icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .comment-content {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .comment-author {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 5px;
+        }
+
+        .comment-text {
+            color: #34495e;
+            line-height: 1.5;
+        }
+
+        .add-comment {
+            margin-top: 20px;
+        }
+
+        button {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #34495e;
+        }
+    </style>
 </head>
 <body>
     <div id="main-section">
@@ -30,15 +126,24 @@
                     <!-- تعليقات مسبقة -->
                     <div class="comment">
                         <div class="icon">👤</div>
-                        <div class="text">درجات دياولي تحسنو بزاف شكرا ايكم       : أحمد الخالدي</div>
+                        <div class="comment-content">
+                            <div class="comment-author">أحمد الخالدي</div>
+                            <div class="comment-text">درجات دياولي تحسنو بزاف شكرا ليكم</div>
+                        </div>
                     </div>
                     <div class="comment">
                         <div class="icon">👤</div>
-                        <div class="text"> كنت بديت معاكم داك لعام اباقي معاكم حيت شفت واحد تحسن فنقاط تبارك الله عليكم اصاف      : ليلى السعدي</div>
+                        <div class="comment-content">
+                            <div class="comment-author">ليلى السعدي</div>
+                            <div class="comment-text">كنت بديت معاكم داك لعام وباقي معاكم حيت شفت واحد تحسن فنقاطي تبارك الله عليكم.</div>
+                        </div>
                     </div>
                     <div class="comment">
                         <div class="icon">👤</div>
-                        <div class="text"> صارحة كشلي عندكم زوين هاهو حاولو تصلحو المشكل تاع انه الدعم مكيخدمش نهار الاحد       : خالد العمري</div>
+                        <div class="comment-content">
+                            <div class="comment-author">خالد العمري</div>
+                            <div class="comment-text">صراحة كشغل عندكم زوين، حاولوا تصلحوا مشكلة الدعم يوم الأحد.</div>
+                        </div>
                     </div>
                 </div>
                 <div class="add-comment">
@@ -93,9 +198,15 @@
                 return;
             }
 
+            const userName = prompt("أدخل اسمك لإضافة التعليق:").trim();
+            if (!userName) {
+                alert("الرجاء إدخال اسم!");
+                return;
+            }
+
             const commentsContainer = document.getElementById("comments-container");
 
-            // إنشاء تعليق جديد يمكن حذفه
+            // إنشاء تعليق جديد
             const commentDiv = document.createElement("div");
             commentDiv.className = "comment";
 
@@ -103,9 +214,19 @@
             iconDiv.className = "icon";
             iconDiv.textContent = "👤";
 
+            const commentContentDiv = document.createElement("div");
+            commentContentDiv.className = "comment-content";
+
+            const authorDiv = document.createElement("div");
+            authorDiv.className = "comment-author";
+            authorDiv.textContent = userName;
+
             const textDiv = document.createElement("div");
-            textDiv.className = "text";
+            textDiv.className = "comment-text";
             textDiv.textContent = commentText;
+
+            commentContentDiv.appendChild(authorDiv);
+            commentContentDiv.appendChild(textDiv);
 
             const deleteBtn = document.createElement("button");
             deleteBtn.className = "delete-btn";
@@ -115,7 +236,7 @@
             };
 
             commentDiv.appendChild(iconDiv);
-            commentDiv.appendChild(textDiv);
+            commentDiv.appendChild(commentContentDiv);
             commentDiv.appendChild(deleteBtn);
             commentsContainer.appendChild(commentDiv);
 
