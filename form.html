@@ -54,13 +54,13 @@
 
             // تحديد المبالغ بناءً على الاختيارات
             if (level === '1bac' && (subject === 'math' || subject === 'physics')) {
-                totalAmount = 150;
+                totalAmount = 150; // قيمة أولى باك رياضيات أو فيزياء
             } else if (level === '2bac' && (subject === 'math' || subject === 'physics')) {
-                totalAmount = 200;
+                totalAmount = 200; // قيمة ثانية باك رياضيات أو فيزياء
             } else if (level === '1bac' && subject === 'الرياضيات والفيزياء') {
-                totalAmount = 200;
+                totalAmount = 200; // قيمة أولى باك الرياضيات والفيزياء
             } else if (level === '2bac' && subject === 'الرياضيات والفيزياء') {
-                totalAmount = 300;
+                totalAmount = 300; // قيمة ثانية باك الرياضيات والفيزياء
             }
 
             // تحديث المبلغ الإجمالي في الصفحة
@@ -75,14 +75,14 @@
         calculateTotal();
 
         // التحقق من المدخلات عند الإرسال
-        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+        document.getElementById('registrationForm').addEventListener('submit', async function (event) {
             event.preventDefault();
 
             const name = document.getElementById('name').value;
             const phone = document.getElementById('phone').value;
             const level = document.getElementById('level').value;
             const subject = document.getElementById('subject').value;
-            const paymentProof = document.getElementById('paymentProof').files.length;
+            const paymentProof = document.getElementById('paymentProof').files[0];
 
             if (name && phone && level && subject && paymentProof) {
                 const randomCode = Math.random().toString(36).substring(2, 12);
@@ -90,37 +90,40 @@
                 // حفظ الكود في sessionStorage
                 sessionStorage.setItem('activationCode', randomCode);
 
-                // إرسال معلومات الاستمارة
-                const botTokenForm = '8080174902:AAHX9XK3_Yd-TkY8Vq2LBzK8BGCWFmqy17o'; 
-                const chatIdForm = '7203065656'; 
-                const messageForm = `تم إرسال الاستمارة بنجاح! 🎉\nالاسم: ${name}\nرقم الهاتف: ${phone}\nالمستوى الدراسي: ${level}\nالمادة: ${subject}\nإثبات الدفع: تم تحميله.`;
+                // إعداد البيانات لإرسالها مع الصورة إلى البوت الأول
+                const botToken1 = '8080174902:AAHX9XK3_Yd-TkY8Vq2LBzK8BGCWFmqy17o'; 
+                const chatId1 = '7203065656'; 
 
-                fetch(`https://api.telegram.org/bot${botTokenForm}/sendMessage?chat_id=${chatIdForm}&text=${encodeURIComponent(messageForm)}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.ok) {
-                            alert('تم إرسال الاستمارة بنجاح! 🎉');
-                        } else {
-                            alert('حدث خطأ أثناء إرسال المعلومات!');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('حدث خطأ أثناء إرسال المعلومات!');
+                const formData = new FormData();
+                formData.append('chat_id', chatId1);
+                formData.append('caption', `تم إرسال الاستمارة بنجاح! 🎉\nالاسم: ${name}\nرقم الهاتف: ${phone}\nالمستوى الدراسي: ${level}\nالمادة: ${subject}`);
+                formData.append('document', paymentProof);
+
+                try {
+                    // إرسال البيانات مع الصورة إلى البوت الأول
+                    const response1 = await fetch(`https://api.telegram.org/bot${botToken1}/sendDocument`, {
+                        method: 'POST',
+                        body: formData,
                     });
 
-                // إرسال كود التفعيل
-                const botTokenCode = '7981448790:AAFhN4pATXu0eVRRKWwuwOMLQp01_Juo1KI'; 
-                const chatIdCode = '7203065656'; 
-                const messageCode = `هاك الكود وسربي عطي لناس الكود دغيا: ${randomCode}`;
+                    const data1 = await response1.json();
 
-                fetch(`https://api.telegram.org/bot${botTokenCode}/sendMessage?chat_id=${chatIdCode}&text=${encodeURIComponent(messageCode)}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.ok) {
+                    if (data1.ok) {
+                        alert('تم إرسال الاستمارة وإثبات الدفع بنجاح! 🎉');
+
+                        // إرسال كود التفعيل إلى البوت الثاني
+                        const botToken2 = '7981448790:AAFhN4pATXu0eVRRKWwuwOMLQp01_Juo1KI'; 
+                        const chatId2 = '7203065656'; 
+
+                        const messageCode = `هاك الكود وسربي عطي لناس الكود دغيا: ${randomCode}`;
+
+                        const response2 = await fetch(`https://api.telegram.org/bot${botToken2}/sendMessage?chat_id=${chatId2}&text=${encodeURIComponent(messageCode)}`);
+                        const data2 = await response2.json();
+
+                        if (data2.ok) {
                             // التوجيه حسب الاختيار
                             if ((level === '1bac' || level === '2bac') && subject === 'الرياضيات والفيزياء') {
-                                window.location.href = 'page2.html'; // التوجيه إلى الصفحة 2
+                                window.location.href = 'page2.html';
                             } else if (level === '1bac' && subject === 'math') {
                                 window.location.href = 'page3.html';
                             } else if (level === '1bac' && subject === 'physics') {
@@ -133,11 +136,13 @@
                         } else {
                             alert('حدث خطأ أثناء إرسال كود التفعيل!');
                         }
-                    })
-                    .catch(error => {
-                        console.error('Error:', error);
-                        alert('حدث خطأ أثناء إرسال كود التفعيل!');
-                    });
+                    } else {
+                        alert('حدث خطأ أثناء إرسال البيانات!');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    alert('حدث خطأ أثناء إرسال البيانات!');
+                }
             } else {
                 alert('الرجاء ملء جميع الحقول');
             }

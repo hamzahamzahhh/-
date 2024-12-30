@@ -41,13 +41,11 @@
             text-decoration: none;
             transition: transform 0.3s, box-shadow 0.3s;
             cursor: pointer;
+            display: none; /* إخفاء الأزرار افتراضياً */
         }
         .button:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.5);
-        }
-        .button:active {
-            transform: translateY(2px);
         }
         .button:nth-child(1) {
             background: #fbc531;
@@ -56,7 +54,6 @@
             background: #9c88ff;
         }
 
-        /* إضافة تنسيق خاص للقفل */
         .lock-container {
             margin-top: 30px;
             display: flex;
@@ -136,7 +133,6 @@
             transform: translateY(2px);
         }
 
-        /* أنيميشن للقفل */
         @keyframes lockAnimation {
             0% {
                 transform: rotate(0deg);
@@ -148,24 +144,12 @@
                 transform: rotate(360deg);
             }
         }
-
-        /* إضافة الرسالة */
-        .success-message {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #2ecc71;
-            color: white;
-            border-radius: 10px;
-            display: none;
-        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>1bac</h1>
-        <a href="https://chat.whatsapp.com/CSplBbGa6EHFe9YNNgkfLf" target="_blank" class="button">الفيزياء</a>
-
-        
+        <a href="https://chat.whatsapp.com/Jypv0oR7C1kCNpYKQHGHN8" target="_blank" class="button" id="mathButton">فيزياء</a>
         <div class="lock-container">
             <div class="lock">
                 <div class="lock-keyhole"></div>
@@ -174,7 +158,6 @@
                 <input type="text" class="code-input" placeholder="أدخل كود التفعيل" id="activationCode">
                 <button class="submit-button" onclick="unlock()">فتح القفل</button>
             </div>
-            <div class="success-message" id="successMessage">تم الفتح بنجاح!</div>
         </div>
     </div>
 <script>
@@ -182,14 +165,11 @@
     function unlock() {
         const enteredCode = document.getElementById("activationCode").value;
         const correctCode = sessionStorage.getItem('activationCode'); // استرجاع الكود من sessionStorage
-        const successMessage = document.getElementById("successMessage");
+        const mathButton = document.getElementById("mathButton");
 
         // التحقق من الكود المدخل
         if (enteredCode === correctCode) {
-            successMessage.style.display = "block";  // عرض رسالة النجاح
-            setTimeout(() => {
-                window.location.href = "page4.html";  // الانتقال إلى الصفحة الثانية بعد 2 ثانية
-            }, 2000);
+            mathButton.style.display = "inline-block"; // إظهار الزر
         } else {
             alert("الكود غير صحيح. حاول مجدداً.");
         }
