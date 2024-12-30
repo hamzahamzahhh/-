@@ -54,13 +54,13 @@
 
             // تحديد المبالغ بناءً على الاختيارات
             if (level === '1bac' && (subject === 'math' || subject === 'physics')) {
-                totalAmount = 150; // قيمة أولى باك رياضيات أو فيزياء
+                totalAmount = 150;
             } else if (level === '2bac' && (subject === 'math' || subject === 'physics')) {
-                totalAmount = 200; // قيمة ثانية باك رياضيات أو فيزياء
+                totalAmount = 200;
             } else if (level === '1bac' && subject === 'الرياضيات والفيزياء') {
-                totalAmount = 200; // قيمة أولى باك الرياضيات والفيزياء
+                totalAmount = 200;
             } else if (level === '2bac' && subject === 'الرياضيات والفيزياء') {
-                totalAmount = 300; // قيمة ثانية باك الرياضيات والفيزياء
+                totalAmount = 300;
             }
 
             // تحديث المبلغ الإجمالي في الصفحة
@@ -78,7 +78,6 @@
         document.getElementById('registrationForm').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            // التحقق من المدخلات
             const name = document.getElementById('name').value;
             const phone = document.getElementById('phone').value;
             const level = document.getElementById('level').value;
@@ -86,13 +85,12 @@
             const paymentProof = document.getElementById('paymentProof').files.length;
 
             if (name && phone && level && subject && paymentProof) {
-                // توليد كود عشوائي
-                const randomCode = Math.random().toString(36).substring(2, 12); 
+                const randomCode = Math.random().toString(36).substring(2, 12);
 
                 // حفظ الكود في sessionStorage
                 sessionStorage.setItem('activationCode', randomCode);
 
-                // إرسال معلومات الاستمارة إلى البوت الأول
+                // إرسال معلومات الاستمارة
                 const botTokenForm = '8080174902:AAHX9XK3_Yd-TkY8Vq2LBzK8BGCWFmqy17o'; 
                 const chatIdForm = '7203065656'; 
                 const messageForm = `تم إرسال الاستمارة بنجاح! 🎉\nالاسم: ${name}\nرقم الهاتف: ${phone}\nالمستوى الدراسي: ${level}\nالمادة: ${subject}\nإثبات الدفع: تم تحميله.`;
@@ -111,10 +109,7 @@
                         alert('حدث خطأ أثناء إرسال المعلومات!');
                     });
 
-                // رسالة في الموقع للانتظار
-                alert('سيتم تزويدك بكود التفعيل على واتساب، انتظر قليلًا.');
-
-                // إرسال كود التفعيل إلى التليغرام
+                // إرسال كود التفعيل
                 const botTokenCode = '7981448790:AAFhN4pATXu0eVRRKWwuwOMLQp01_Juo1KI'; 
                 const chatIdCode = '7203065656'; 
                 const messageCode = `هاك الكود وسربي عطي لناس الكود دغيا: ${randomCode}`;
@@ -123,7 +118,18 @@
                     .then(response => response.json())
                     .then(data => {
                         if (data.ok) {
-                            window.location.href = 'الصفحة2.html'; // التوجيه إلى الصفحة2.html
+                            // التوجيه حسب الاختيار
+                            if ((level === '1bac' || level === '2bac') && subject === 'الرياضيات والفيزياء') {
+                                window.location.href = 'page2.html'; // التوجيه إلى الصفحة 2
+                            } else if (level === '1bac' && subject === 'math') {
+                                window.location.href = 'page3.html';
+                            } else if (level === '1bac' && subject === 'physics') {
+                                window.location.href = 'page4.html';
+                            } else if (level === '2bac' && subject === 'math') {
+                                window.location.href = 'page6.html';
+                            } else if (level === '2bac' && subject === 'physics') {
+                                window.location.href = 'page5.html';
+                            }
                         } else {
                             alert('حدث خطأ أثناء إرسال كود التفعيل!');
                         }
@@ -136,7 +142,6 @@
                 alert('الرجاء ملء جميع الحقول');
             }
         });
-    </script>  
-    
+    </script>
 </body>
 </html>
