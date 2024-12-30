@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> النجاح مسار</title>
+    <title>النجاح مسار</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
         <div class="header-content">
-            <a href="الصفحة1.html">الرئيسية</a>
+            <a href="form.html">الرئيسية</a>
             <a href="support.html">الدعم</a>
         </div>
     </header>
@@ -44,6 +44,99 @@
         </form>
     </section>
 
-    <script src="script.js"></script>
+    <script>
+        // دالة لحساب المبلغ بناءً على الاختيارات
+        function calculateTotal() {
+            const level = document.getElementById('level').value;
+            const subject = document.getElementById('subject').value;
+
+            let totalAmount = 0;
+
+            // تحديد المبالغ بناءً على الاختيارات
+            if (level === '1bac' && (subject === 'math' || subject === 'physics')) {
+                totalAmount = 150; // قيمة أولى باك رياضيات أو فيزياء
+            } else if (level === '2bac' && (subject === 'math' || subject === 'physics')) {
+                totalAmount = 200; // قيمة ثانية باك رياضيات أو فيزياء
+            } else if (level === '1bac' && subject === 'الرياضيات والفيزياء') {
+                totalAmount = 200; // قيمة أولى باك الرياضيات والفيزياء
+            } else if (level === '2bac' && subject === 'الرياضيات والفيزياء') {
+                totalAmount = 300; // قيمة ثانية باك الرياضيات والفيزياء
+            }
+
+            // تحديث المبلغ الإجمالي في الصفحة
+            document.getElementById('totalAmount').textContent = `المبلغ الإجمالي: ${totalAmount} درهم`;
+        }
+
+        // استماع لتغيير الاختيارات
+        document.getElementById('level').addEventListener('change', calculateTotal);
+        document.getElementById('subject').addEventListener('change', calculateTotal);
+
+        // استدعاء حساب المبلغ عند تحميل الصفحة
+        calculateTotal();
+
+        // التحقق من المدخلات عند الإرسال
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // التحقق من المدخلات
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const level = document.getElementById('level').value;
+            const subject = document.getElementById('subject').value;
+            const paymentProof = document.getElementById('paymentProof').files.length;
+
+            if (name && phone && level && subject && paymentProof) {
+                // توليد كود عشوائي
+                const randomCode = Math.random().toString(36).substring(2, 12); 
+
+                // حفظ الكود في sessionStorage
+                sessionStorage.setItem('activationCode', randomCode);
+
+                // إرسال معلومات الاستمارة إلى البوت الأول
+                const botTokenForm = '8080174902:AAHX9XK3_Yd-TkY8Vq2LBzK8BGCWFmqy17o'; 
+                const chatIdForm = '7203065656'; 
+                const messageForm = `تم إرسال الاستمارة بنجاح! 🎉\nالاسم: ${name}\nرقم الهاتف: ${phone}\nالمستوى الدراسي: ${level}\nالمادة: ${subject}\nإثبات الدفع: تم تحميله.`;
+
+                fetch(`https://api.telegram.org/bot${botTokenForm}/sendMessage?chat_id=${chatIdForm}&text=${encodeURIComponent(messageForm)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.ok) {
+                            alert('تم إرسال الاستمارة بنجاح! 🎉');
+                        } else {
+                            alert('حدث خطأ أثناء إرسال المعلومات!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('حدث خطأ أثناء إرسال المعلومات!');
+                    });
+
+                // رسالة في الموقع للانتظار
+                alert('سيتم تزويدك بكود التفعيل على واتساب، انتظر قليلًا.');
+
+                // إرسال كود التفعيل إلى التليغرام
+                const botTokenCode = '7981448790:AAFhN4pATXu0eVRRKWwuwOMLQp01_Juo1KI'; 
+                const chatIdCode = '7203065656'; 
+                const messageCode = `هاك الكود وسربي عطي لناس الكود دغيا: ${randomCode}`;
+
+                fetch(`https://api.telegram.org/bot${botTokenCode}/sendMessage?chat_id=${chatIdCode}&text=${encodeURIComponent(messageCode)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.ok) {
+                            window.location.href = 'الصفحة2.html'; // التوجيه إلى الصفحة2.html
+                        } else {
+                            alert('حدث خطأ أثناء إرسال كود التفعيل!');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('حدث خطأ أثناء إرسال كود التفعيل!');
+                    });
+            } else {
+                alert('الرجاء ملء جميع الحقول');
+            }
+        });
+    </script>  
+    
 </body>
 </html>
