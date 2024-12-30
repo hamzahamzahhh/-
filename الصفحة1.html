@@ -309,19 +309,6 @@
         }
     </script>
 </body>
-</html>t").value = "";
-        }
-
-        // دالة لزيادة عدد الإعجابات ومنع الإعجاب المتعدد
-        function increaseLikes(likeButton) {
-            const likeCount = likeButton.querySelector('.like-count');
-            let count = parseInt(likeCount.innerText);
-
-            if (likeButton.disabled) return; // إذا كان الزر معطل بالفعل، لا يمكن زيادته مرة أخرى.
-
-            likeCount.innerText = count + 1;
-            likeButton.disabled = true; // تعطيل زر الإعجاب بعد الضغط عليه.
-        }
-    </script>
-</body>
 </html>
+
+        
