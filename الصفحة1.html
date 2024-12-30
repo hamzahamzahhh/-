@@ -6,24 +6,31 @@
     <title>النجاح مسار</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Cairo', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f4f4f9;
+            background-color: #f3f6f9;
+            color: #2c3e50;
             direction: rtl;
         }
 
         header {
-            background-color: #2c3e50;
+            background: linear-gradient(135deg, #3498db, #8e44ad);
             color: white;
             padding: 15px;
             text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .header-content a {
             color: white;
-            margin: 0 10px;
+            margin: 0 15px;
             text-decoration: none;
+            font-weight: bold;
+        }
+
+        .header-content a:hover {
+            text-decoration: underline;
         }
 
         .welcome-section {
@@ -32,49 +39,48 @@
         }
 
         #edit-name-section {
-            text-align: center;
+            text-align: left;
             margin-top: 20px;
+            padding: 0 20px;
         }
 
         #edit-name-section input {
-            width: 300px;
+            width: 250px;
             padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
             margin-bottom: 10px;
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        #edit-name-section input:focus {
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
         }
 
         #edit-name-section button {
-            background-color: #2c3e50;
+            background: linear-gradient(135deg, #3498db, #8e44ad);
             color: white;
-            padding: 10px 15px;
+            padding: 8px 16px;
             border: none;
-            border-radius: 5px;
+            border-radius: 30px;
             cursor: pointer;
             margin-left: 5px;
+            transition: transform 0.3s, background 0.3s;
+            font-size: 14px;
         }
 
         #edit-name-section button:hover {
-            background-color: #34495e;
-        }
-
-        textarea#new-comment {
-            width: 100%;
-            height: 60px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            padding: 10px;
-            border-radius: 5px;
-            resize: none;
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #8e44ad, #3498db);
         }
 
         .comments-section {
             padding: 20px;
             background: white;
-            border-radius: 5px;
+            border-radius: 10px;
             max-width: 600px;
-            margin: 0 auto;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin: 20px auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
         }
 
         .comment {
@@ -84,22 +90,23 @@
             border-bottom: 1px solid #ddd;
             padding-bottom: 10px;
             position: relative;
-            transition: transform 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-radius: 5px;
         }
 
         .comment:hover {
-            transform: scale(1.03);
+            transform: scale(1.02);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             background-color: #f9f9f9;
         }
 
         .icon {
-            font-size: 24px;
+            font-size: 30px;
             margin-right: 10px;
+            color: #8e44ad;
         }
 
         .comment-content {
-            display: flex;
-            flex-direction: column;
             flex-grow: 1;
         }
 
@@ -114,132 +121,125 @@
             line-height: 1.5;
         }
 
-        .delete-btn, .like-btn, .dislike-btn {
-            background-color: #e74c3c;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            padding: 5px 10px;
-            font-size: 14px;
-            cursor: pointer;
-            position: absolute;
-            top: 10px;
-            left: 10px;
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
         }
 
-        .like-btn, .dislike-btn {
+        .action-btn {
+            border: none;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.3s;
+        }
+
+        .like-btn {
             background-color: #2ecc71;
-            left: unset;
-            right: 70px;
+            color: white;
+        }
+
+        .like-btn:hover {
+            transform: scale(1.1);
+            background-color: #27ae60;
         }
 
         .dislike-btn {
-            background-color: #e67e22;
-            right: 10px;
+            background-color: #e74c3c;
+            color: white;
         }
 
-        .delete-btn:hover, .like-btn:hover, .dislike-btn:hover {
-            opacity: 0.8;
+        .dislike-btn:hover {
+            transform: scale(1.1);
+            background-color: #c0392b;
         }
 
         .add-comment {
             margin-top: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
         }
 
-        .request-name-modal {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            text-align: center;
-        }
-
-        .request-name-modal input {
-            width: 80%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        .request-name-modal button {
-            padding: 10px 15px;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            background-color: #2c3e50;
-            color: white;
-        }
-
-        .request-name-modal button:hover {
-            background-color: #34495e;
-        }
-
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
+        #new-comment {
             width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
+            height: 60px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 10px;
+            resize: none;
+            transition: box-shadow 0.3s;
+        }
+
+        #new-comment:focus {
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.5);
+        }
+
+        .add-comment button {
+            align-self: flex-end;
+            background: linear-gradient(135deg, #3498db, #8e44ad);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+        }
+
+        .add-comment button:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(135deg, #8e44ad, #3498db);
+        }
+
+        .edit-button-container {
+            position: absolute;
+            top: 10px;
+            right: 20px;
         }
     </style>
 </head>
 <body>
-    <div id="main-section">
-        <header>
-            <div class="header-content">
-                <a href="form.html">الاستمارة</a>
-                <a href="support.html">الدعم</a>
+    <header>
+        <div class="header-content">
+            <a href="form.html">الاستمارة</a>
+            <a href="support.html">الدعم</a>
+        </div>
+    </header>
+    <main>
+        <div class="welcome-section">
+            <h1 id="welcome-message">مرحباً!</h1>
+        </div>
+
+        <!-- تعديل الاسم -->
+        <div id="edit-name-section">
+            <button onclick="showEditField()">تعديل الاسم</button>
+            <div id="edit-name-field" style="display: none;">
+                <input type="text" id="new-name" placeholder="أدخل الاسم الجديد" />
+                <button onclick="saveName()">حفظ</button>
             </div>
-        </header>
-        <main>
-            <div class="welcome-section">
-                <h1 id="welcome-message">مرحباً!</h1>
-                <button id="edit-name-btn" onclick="showEditNameForm()">تعديل الاسم</button>
-            </div>
-            <div id="edit-name-section" style="display: none;">
-                <input type="text" id="new-name" placeholder="أدخل الاسم الجديد">
-                <button onclick="updateName()">حفظ</button>
-                <button onclick="hideEditNameForm()">إلغاء</button>
-            </div>
-            <section class="comments-section">
-                <h2>التعليقات</h2>
-                <div id="comments-container">
-                    <!-- تعليقات مسبقة -->
-                    <div class="comment">
-                        <div class="icon">👤</div>
-                        <div class="comment-content">
-                            <div class="comment-author">أحمد الخالدي</div>
-                            <div class="comment-text">درجات دياولي تحسنو بزاف شكرا ليكم</div>
-                        </div>
-                        <button class="delete-btn" onclick="deleteComment(this)">حذف</button>
-                        <button class="like-btn" onclick="alert('أعجبني!')">👍</button>
-                        <button class="dislike-btn" onclick="alert('لم يعجبني')">👎</button>
+        </div>
+
+        <section class="comments-section">
+            <h2>التعليقات</h2>
+            <div id="comments-container">
+                <!-- تعليق افتراضي -->
+                <div class="comment">
+                    <div class="icon">👤</div>
+                    <div class="comment-content">
+                        <div class="comment-author">أحمد الخالدي</div>
+                        <div class="comment-text">درجات دياولي تحسنو بزاف شكرا ليكم</div>
                     </div>
                 </div>
-                <div class="add-comment">
-                    <textarea id="new-comment" placeholder="اكتب تعليقك هنا..."></textarea>
-                    <button onclick="requestName()">إضافة تعليق</button>
-                </div>
-            </section>
-        </main>
-    </div>
-
-    <div class="overlay" id="overlay"></div>
-    <div class="request-name-modal" id="request-name-modal">
-        <h3>أدخل اسمك</h3>
-        <input type="text" id="comment-author-name" placeholder="اسمك">
-        <button onclick="addTestimonial()">حفظ</button>
-    </div>
+            </div>
+            <div class="add-comment">
+                <textarea id="new-comment" placeholder="اكتب تعليقك هنا..."></textarea>
+                <button onclick="addComment()">إضافة تعليق</button>
+            </div>
+        </section>
+    </main>
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
@@ -248,40 +248,33 @@
             if (!userName) {
                 window.location.href = "index.html";
             } else {
-                document.getElementById("welcome-message").textContent = `مرحباً، ${userName}!`;
+                const welcomeMessage = document.getElementById("welcome-message");
+                welcomeMessage.textContent = `مرحباً، ${userName}!`;
             }
         });
 
-        function showEditNameForm() {
-            document.getElementById("edit-name-section").style.display = "block";
+        // عرض خانة تعديل الاسم
+        function showEditField() {
+            document.getElementById("edit-name-field").style.display = "block";
         }
 
-        function hideEditNameForm() {
-            document.getElementById("edit-name-section").style.display = "none";
-        }
-
-        function updateName() {
+        // حفظ الاسم الجديد
+        function saveName() {
             const newName = document.getElementById("new-name").value.trim();
-            if (newName === "") {
-                alert("الرجاء إدخال اسم جديد!");
-                return;
+            if (newName) {
+                localStorage.setItem("userName", newName);
+                document.getElementById("welcome-message").textContent = `مرحباً، ${newName}!`;
+                document.getElementById("edit-name-field").style.display = "none";
+            } else {
+                alert("يرجى إدخال اسم صالح!");
             }
-
-            localStorage.setItem("userName", newName);
-            document.getElementById("welcome-message").textContent = `مرحباً، ${newName}!`;
-            hideEditNameForm();
         }
 
-        function requestName() {
-            document.getElementById("overlay").style.display = "block";
-            document.getElementById("request-name-modal").style.display = "block";
-        }
-
-        function addTestimonial() {
-            const authorName = document.getElementById("comment-author-name").value.trim();
+        // دالة لإضافة تعليق جديد
+        function addComment() {
             const commentText = document.getElementById("new-comment").value.trim();
-            if (!authorName || !commentText) {
-                alert("الرجاء إدخال جميع الحقول!");
+            if (commentText === "") {
+                alert("يرجى كتابة تعليق!");
                 return;
             }
 
@@ -298,42 +291,36 @@
 
             const authorDiv = document.createElement("div");
             authorDiv.className = "comment-author";
-            authorDiv.textContent = authorName;
+            authorDiv.textContent = localStorage.getItem("userName") || "مستخدم مجهول";
 
             const textDiv = document.createElement("div");
             textDiv.className = "comment-text";
             textDiv.textContent = commentText;
-
-            const deleteBtn = document.createElement("button");
-            deleteBtn.className = "delete-btn";
-            deleteBtn.textContent = "حذف";
-            deleteBtn.onclick = () => commentDiv.remove();
-
-            const likeBtn = document.createElement("button");
-            likeBtn.className = "like-btn";
-            likeBtn.textContent = "👍";
-            likeBtn.onclick = () => alert('أعجبني!');
-
-            const dislikeBtn = document.createElement("button");
-            dislikeBtn.className = "dislike-btn";
-            dislikeBtn.textContent = "👎";
-            dislikeBtn.onclick = () => alert('لم يعجبني');
 
             contentDiv.appendChild(authorDiv);
             contentDiv.appendChild(textDiv);
 
             commentDiv.appendChild(iconDiv);
             commentDiv.appendChild(contentDiv);
-            commentDiv.appendChild(deleteBtn);
-            commentDiv.appendChild(likeBtn);
-            commentDiv.appendChild(dislikeBtn);
 
             commentsContainer.appendChild(commentDiv);
 
-            document.getElementById("overlay").style.display = "none";
-            document.getElementById("request-name-modal").style.display = "none";
-            document.getElementById("new-comment").value = "";
-            document.getElementById("comment-author-name").value = "";
+            document.getElementById("new-comment").value = ""; // مسح النص في مربع التعليق بعد إضافة التعليق
+        }
+    </script>
+</body>
+</html>t").value = "";
+        }
+
+        // دالة لزيادة عدد الإعجابات ومنع الإعجاب المتعدد
+        function increaseLikes(likeButton) {
+            const likeCount = likeButton.querySelector('.like-count');
+            let count = parseInt(likeCount.innerText);
+
+            if (likeButton.disabled) return; // إذا كان الزر معطل بالفعل، لا يمكن زيادته مرة أخرى.
+
+            likeCount.innerText = count + 1;
+            likeButton.disabled = true; // تعطيل زر الإعجاب بعد الضغط عليه.
         }
     </script>
 </body>
