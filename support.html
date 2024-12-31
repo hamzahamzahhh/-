@@ -3,38 +3,214 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>النجاح مسار  </title>
-    <link rel="stylesheet" href="style.css">
-</head>
+    <title>دعم ذكي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            direction: rtl;
+        }
 
-<header>
-    <div class="header-content">
-        <a href="الصفحة1.html">الرئيسية</a>
-        <a href="form.html">الاستمارة</a>
-    </div>
-</header>
+        header {
+            background: #3498db;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .chatbot-container {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #3498db;
+            border-radius: 50%;
+            padding: 15px;
+            cursor: pointer;
+            color: white;
+            font-size: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .chatbot-container:hover {
+            transform: scale(1.1);
+        }
+
+        .support-options {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+            gap: 20px;
+        }
+
+        .support-option {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            width: 250px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        .support-option:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .support-option i {
+            font-size: 50px;
+            color: #3498db;
+            margin-bottom: 15px;
+        }
+
+        .support-option h3 {
+            font-size: 20px;
+            color: #34495e;
+            font-weight: bold;
+        }
+
+        .chatbox {
+            display: none;
+            position: fixed;
+            bottom: 80px;
+            right: 30px;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 350px;
+            max-height: 500px;
+            overflow-y: auto;
+            animation: slideIn 1s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(100px);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .chatbox-header {
+            font-size: 18px;
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .chatbox-content {
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+
+        .chatbox input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+
+        .chatbox button {
+            background: #3498db;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        .chatbox button:hover {
+            background: #2980b9;
+        }
+    </style>
+</head>
 
 <body>
 
-    <section class="support-section">
-        <div class="support-card" style="background-image: url('واتساب.png');" onclick="window.location.href='https://wa.me/212700762375'">
-            <img src="واتساب.png" alt="واتساب">
-            <h3>واتساب</h3>
+    <header>
+        <h1>دعم ذكي</h1>
+    </header>
+
+    <div class="support-options">
+        <div class="support-option" onclick="openChat('واتساب')">
+            <i class="fab fa-whatsapp"></i>
+            <h3>دعم عبر واتساب</h3>
         </div>
 
-        <div class="support-card" style="background-image: url('انستقرام.png');" onclick="window.location.href='https://www.instagram.com/pika_0__0/profilecard/?igsh=ZXoxbHkzZWh3dXUz'">
-            <img src="انستقرام.png" alt="إنستقرام">
-            <h3>انستقرام</h3>
+        <div class="support-option" onclick="openChat('انستقرام')">
+            <i class="fab fa-instagram"></i>
+            <h3>دعم عبر انستقرام</h3>
         </div>
 
-        <div class="support-card" style="background-image: url('جيمايل.png');" onclick="window.location.href='mailto:hrafi3141@gmail.com'">
-            <img src="جيمايل.png" alt="جيمايل">
-            <h3>جيمايل</h3>
+        <div class="support-option" onclick="openChat('جيمايل')">
+            <i class="fas fa-envelope"></i>
+            <h3>دعم عبر جيمايل</h3>
         </div>
-    </section>
+    </div>
+
+    <div class="chatbox" id="chatbox">
+        <div class="chatbox-header" id="chatboxHeader">مرحباً، كيف يمكنني مساعدتك؟</div>
+        <div class="chatbox-content" id="chatboxContent">
+            أرجو منك اختيار طريقة الدعم التي ترغب فيها.
+        </div>
+        <input type="text" id="userMessage" placeholder="أرسل لي استفسارك هنا...">
+        <button onclick="sendMessage()">أرسل</button>
+    </div>
+
+    <div class="chatbot-container" onclick="openChatbox()">
+        <i class="fas fa-comment"></i>
+    </div>
+
+    <!-- Font Awesome for Icons -->
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
 
     <script>
-        // يمكن إضافة المزيد من الوظائف هنا إذا لزم الأمر
+        function openChatbox() {
+            document.getElementById('chatbox').style.display = 'block';
+        }
+
+        function closeChatbox() {
+            document.getElementById('chatbox').style.display = 'none';
+        }
+
+        function openChat(platform) {
+            document.getElementById('chatboxHeader').innerHTML = `دعم عبر ${platform}`;
+            document.getElementById('chatboxContent').innerHTML = `هل تحتاج إلى دعم فني عبر ${platform}؟`;
+            currentPlatform = platform;  // Keep track of the selected platform
+        }
+
+        let currentPlatform = '';
+
+        function sendMessage() {
+            const userMessage = document.getElementById('userMessage').value;
+            if (userMessage && currentPlatform) {
+                let url = '';
+                if (currentPlatform === 'واتساب') {
+                    url = `https://wa.me/212700762375?text=${encodeURIComponent(userMessage)}`;
+                } else if (currentPlatform === 'انستقرام') {
+                    url = `https://www.instagram.com/direct/new/`;
+                } else if (currentPlatform === 'جيمايل') {
+                    url = `mailto:hrafi3141@gmail.com?subject=استفسار&body=${encodeURIComponent(userMessage)}`;
+                }
+
+                // Redirect to the chosen platform with the message
+                window.location.href = url;
+
+                // Clear the message field
+                document.getElementById('userMessage').value = '';
+            }
+        }
     </script>
 
 </body>
